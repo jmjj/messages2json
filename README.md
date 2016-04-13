@@ -1,4 +1,4 @@
-E-mail meessage to JSON converter
+E-mail message to JSON converter
 ================================
 
 Version: 0.1.0
