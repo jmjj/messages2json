@@ -5,6 +5,9 @@ Version: 0.2.0
 
 Author: Jari Juopperi
 
+Travis CI build: [![Build Status](https://travis-ci.org/jmjj/messages2json.svg?branch=master)](https://travis-ci.org/jmjj/messages2json)
+
+
 Overview
 --------
 
