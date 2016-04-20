@@ -131,16 +131,13 @@ class TestCmdLineProcessing():
         self.same_json_os = False        
         with open('tests/test_messages_1.result',mode='r') as file_o1:
             with open(self.tmp_output_file_name, mode='r') as file_o2:
-                json_o1_tmp = json.load(file_o1, strict=False, object_pairs_hook=OrderedDict)
-                json_o2_tmp = json.load(file_o2, strict=False, object_pairs_hook=OrderedDict)
-                json_o1 = []
-                json_o2 = []
-                for od in json_o1_tmp:
-                    json_o1.append(sort_ordered_dict_helper(od))
-                for od in json_o2_tmp:
-                    json_o2.append(sort_ordered_dict_helper(od))
-                print(json_o1)
-   
+                json_o1 = json.load(file_o1, strict=False, object_pairs_hook=OrderedDict)
+                for k in json_o1.keys():
+                    json_o1[k] = sort_ordered_dict_helper(json_o1[k])
+                json_o2 = json.load(file_o2, strict=False, object_pairs_hook=OrderedDict)
+                for k in json_o2.keys():
+                    json_o2[k] = sort_ordered_dict_helper(json_o2[k])
+          
                 self.same_json_os = (json_o1 == json_o2) 
                 
         nose.tools.assert_true(self.same_json_os)
@@ -161,16 +158,13 @@ class TestCmdLineProcessing():
         self.same_json_os = False        
         with open('tests/test_messages_1.result',mode='r') as file_o1:
             with open(self.tmp_output_file_name, mode='r') as file_o2:
-                json_o1_tmp = json.load(file_o1, strict=False, object_pairs_hook=OrderedDict)
-                json_o2_tmp = json.load(file_o2, strict=False, object_pairs_hook=OrderedDict)
-                json_o1 = []
-                json_o2 = []
-                for od in json_o1_tmp:
-                    json_o1.append(sort_ordered_dict_helper(od))
-                for od in json_o2_tmp:
-                    json_o2.append(sort_ordered_dict_helper(od))
-                print(json_o1)
-   
+                json_o1 = json.load(file_o1, strict=False, object_pairs_hook=OrderedDict)
+                for k in json_o1.keys():
+                    json_o1[k] = sort_ordered_dict_helper(json_o1[k])
+                json_o2 = json.load(file_o2, strict=False, object_pairs_hook=OrderedDict)
+                for k in json_o2.keys():
+                    json_o2[k] = sort_ordered_dict_helper(json_o2[k])
+
                 self.same_json_os = (json_o1 == json_o2)        
                 
         nose.tools.assert_true(self.same_json_os)

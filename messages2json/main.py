@@ -115,12 +115,16 @@ def process_files(io_map: dict, msg_content_format: str, force: bool, body: bool
 
         # Construct a list of dictionaries, a dictionary for each mbox message
         # in the input file.
-        list_of_messages = []
+        #list_of_messages = []
+        
+        dict_of_messages = {}
+        i = 0 
         for message in mailbox.mbox(real_mail_file, create=False):
-            list_of_messages.append(process_one_message(message, body))
-
+            dict_of_messages[i] = process_one_message(message, body)
+            i = i + 1
+            
         # Send the messages out
-        send_messages_out(io_map[mail_file], list_of_messages,
+        send_messages_out(io_map[mail_file], dict_of_messages,
                           msg_content_format, force)
 
         # If the content was coming stdin, remove the temporary file.
@@ -176,14 +180,14 @@ def process_message_body(message: mailbox.mboxMessage) -> dict:
 
     return part_dict
 
-def send_messages_out(out_file: str, list_of_messages: list,
+def send_messages_out(out_file: str, dict_of_messages: dict,
                       msg_content_format: str, force: bool) -> None:
     '''
          Store list of message to a file in the selected fomat.
 
          Arguments:
          out_file:             The absolute path of the ouput file.
-         list_of _messages:    List of dicts containitn the messages.
+         dict_of _messages:    Dict of dicts containitn the messages.
          msg_content_format:   The format desrired output format. Only JSON
                                supported currently
          force:                True: Overwrite the existing output file
@@ -192,7 +196,7 @@ def send_messages_out(out_file: str, list_of_messages: list,
 
     file_mode = 'x'
     if out_file == "stdout":
-        json.dump(list_of_messages, sys.stdout)
+        json.dump(dict_of_messages, sys.stdout)
     else:
         if force:
             # Overwrite the existing file
@@ -202,7 +206,7 @@ def send_messages_out(out_file: str, list_of_messages: list,
             file_mode = 'x'
         try:
             with open(out_file, mode=file_mode) as out_file_pointer:
-                json.dump(list_of_messages, out_file_pointer)
+                json.dump(dict_of_messages, out_file_pointer)
         except (OSError, IOError) as inst:
             print("Can't write to ouput file: {}".format(inst))
             sys.exit(1)
